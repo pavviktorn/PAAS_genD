@@ -1,0 +1,40 @@
+{
+  "_about": "GenD (arXiv:2508.06248, WACV 2026) on MIDS. Frozen CLIP ViT-L/14 with LayerNorm-only fine-tuning + L2-normalized linear head, loss = CE + uniformity + alignment. Defaults = the best GenD config (wacv-LN+L2+UnAl), initialized from the released yermandy/GenD_CLIP_L_14 encoder. Full-image input (no face crop).",
+
+  "clip_base": "/datasets/work/vLLM/temp/PAAS_genD/base_models/clip-vit-large-patch14",
+  "init_from": "/datasets/work/vLLM/temp/PAAS_genD/weights/GenD_CLIP_L_14.safetensors",
+  "train_data": "/datasets/work/vLLM/temp/testset/testset_mids/mids_first_half.json",
+  "val_data": "/datasets/work/vLLM/temp/testset/testset_mids/mids_testset.json",
+
+  "num_classes": 3,
+  "class_weight": true,
+  "image_size": 224,
+  "head": "LinearNorm",
+  "unfreeze_layers": ["pre_layrnorm", "layer_norm1", "layer_norm2", "post_layernorm"],
+
+  "loss_ce": 1.0,
+  "loss_uniformity": 0.5,
+  "loss_alignment": 0.1,
+  "label_smoothing": 0.0,
+
+  "lr": 1e-4,
+  "min_lr": 1e-5,
+  "weight_decay": 0.0,
+  "betas": [0.9, 0.999],
+  "batch_size": 128,
+  "epochs": 2,
+  "warmup_steps": 500,
+  "grad_clip": 1.0,
+
+  "num_workers": 12,
+  "amp_dtype": "bf16",
+  "omp_threads": 12,
+  "seed": 42,
+
+  "eval_every_steps": 2400,
+  "log_every_steps": 1,
+  "real_recall_target": 0.95,
+  "select_metric": "bin_auc",
+
+  "out_dir": "/datasets/work/vLLM/temp/PAAS_genD/runs/gend_default"
+}
